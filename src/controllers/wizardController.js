@@ -1,9 +1,9 @@
-const { createHouse, updateHouse } = require("../models/houseModel");
 const wizardModel = require("../models/wizardModel");
 
 const getAllWizards = async (req, res) => {
     try {
-        const wizards = await wizardModel.getWizards();
+        const { name } = req.query;
+        const wizards = await wizardModel.getWizards(name);
         res.json(wizards);
     } catch (error) {
         res.status(500).json({ message: "Erro ao buscar bruxos." });
