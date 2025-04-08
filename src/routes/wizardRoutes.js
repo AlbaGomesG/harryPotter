@@ -5,6 +5,8 @@ const wizardController = require("../controllers/wizardController");
 router.get("/", wizardController.getAllWizards);
 router.get("/wizards/:id", wizardController.getWizard);
 router.post("/", wizardController.createWizard);
+router.put("/:id", wizardController.updateWizard);
+router.delete("/id", wizardController.deleteWizard);
 
 
 module.exports = router;

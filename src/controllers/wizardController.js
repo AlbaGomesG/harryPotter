@@ -1,4 +1,4 @@
-const { createHouse } = require("../models/houseModel");
+const { createHouse, updateHouse } = require("../models/houseModel");
 const wizardModel = require("../models/wizardModel");
 
 const getAllWizards = async (req, res) => {
@@ -9,7 +9,6 @@ const getAllWizards = async (req, res) => {
         res.status(500).json({ message: "Erro ao buscar bruxos." });
     }
 };
-
 const getWizard = async (req, res) => {
     try {
         const wizard = await wizardModel.getWizardById(req.params.id);
@@ -32,4 +31,26 @@ const createWizard = async (req, res) => {
     }
 };
 
-module.exports = { getAllWizards, getWizard, createWizard };
+const updateWizard = async (req, res) => {
+    try {
+        const { name, house_id } = req.body;
+        const newWizard = await wizardModel.updateWizard(req.params.id, name, house_id);
+        if (!updateWizard) {
+            return res.status(404).json({ message: "Erro ao atualizar Bruxo!"});
+        }
+        res.json(updateWizard);
+    } catch (error) {
+        res.status(404).json({ message: "Erro ao atualizar Bruxo!"})
+    }
+};
+
+const deleteWizard = async (req, res) => {
+    try {
+        const message = await wizardModel.deleteWizard(req.params.id);
+        res.json(message);
+    } catch (error) {
+        res.status(404).json({ message: "Erro ao deletar bruxo." });
+    }
+}
+
+module.exports = { getAllWizards, getWizard, createWizard, updateWizard, deleteWizard };
