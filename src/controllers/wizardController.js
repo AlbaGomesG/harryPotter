@@ -5,10 +5,11 @@ const getAllWizards = async (req, res) => {
         const { name } = req.query;
         const wizards = await wizardModel.getWizards(name);
         res.json(wizards);
-    } catch (error) {
+    } catch (error) { 
         res.status(500).json({ message: "Erro ao buscar bruxos." });
     }
 };
+
 const getWizard = async (req, res) => {
     try {
         const wizard = await wizardModel.getWizardById(req.params.id);
@@ -24,17 +25,19 @@ const getWizard = async (req, res) => {
 const createWizard = async (req, res) => {
     try {
         const { name, house_id } = req.body;
-        const newWizard = await wizardModel.createWizard(name, house_id);
+        const photo = req.file ? req.file.filename : null;
+        const newWizard = await wizardModel.createWizard(name, house_id, photo);
         res.status(201).json(newWizard);
     } catch (error) {
         res.status(500).json({ message: "Erro ao criar bruxo." });
     }
 };
 
+
 const updateWizard = async (req, res) => {
     try {
         const { name, house_id } = req.body;
-        const newWizard = await wizardModel.updateWizard(req.params.id, name, house_id);
+        const updateWizard = await wizardModel.updateWizard(req.params.id, name, house_id);
         if (!updateWizard) {
             return res.status(404).json({ message: "Erro ao atualizar Bruxo!"});
         }
